@@ -1,0 +1,9 @@
+1. pip install virtualenv
+2. virtualenv -p python3 venv --always-copy
+3. .\venv\Scripts\activate
+4. pip install flask
+5. pip install flask-bootstrap
+6. pip install boto3
+7. pip install awscli
+8. pip install python-dotenv
+9. pip install arrow
