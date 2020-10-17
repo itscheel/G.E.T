@@ -1,4 +1,4 @@
-{% extends "bootstrap/base.html" %}
+{% extends "base/index.html" %}
 
 {% block html_atribs %}
     lang='en'
@@ -6,6 +6,12 @@
 
 {% block title %}
     S3 Object List
+{% endblock %}
+
+{% block js%}
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"></script>
+  <script src="{{url_for('static',filename='js/upload_file.js') }}"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 {% endblock %}
 
 {% block navbar %}
@@ -20,7 +26,9 @@
       <div class="row">
           <div class="col-12-xs">
               <form class="upload-form" action="/upload" method="post" enctype="multipart/form-data">
-                <h5><input type="file" name="file[]" required multiple=""></h5>
+                <span class="label label-info text-info p-1" id="fileinfo"></span>
+                <h5><input type="file" id="files" name="file[]" required multiple=""></h5>
+                <hr>
                 <button type="submit" name="submit" class="btn btn-success">Subir</button>
               </form>
               <h3>Bucket Info</h3>
