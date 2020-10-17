@@ -9,7 +9,9 @@ s3 = boto3.client(
     aws_access_key_id = S3_KEY,
     aws_secret_access_key = S3_SECRET
 )
-bucket_name = 'calacaschidas'
+#bucket_name = 'text0detection'
+bucket_upload = 'calacaschidasdown'
+bucket_download = ''
 upload_folder = 'UpTest'
 
 app_bbva = Flask(__name__)
@@ -17,34 +19,32 @@ Bootstrap(app_bbva)
 
 @app_bbva.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('home.html')
 
 @app_bbva.route('/files', methods=['GET','POST'])
 def files():
     s3_resource = boto3.resource('s3')
-    my_bucket = s3_resource.Bucket(bucket_name)
+    my_bucket = s3_resource.Bucket(bucket_upload)
     summaries = my_bucket.objects.all()
     return render_template('files.html', my_bucket=my_bucket, files = summaries)
 
 @app_bbva.route('/upload',methods=['POST'])
 def upload():
     if request.method == 'POST':
-        file = request.files['file']
         s3_resource = boto3.resource('s3')
-        my_bucket = s3_resource.Bucket(bucket_name)
+        my_bucket = s3_resource.Bucket(bucket_upload)
+        for file in request.files.getlist("file[]"):
+            print('name:'+str(file.filename)+'/ file:'+str(file))
+            my_bucket.Object(file.filename).put(Body=file)
 
-        #s3_resource.meta.client.upload_file('s3://calacaschidas/UpTest/'+file.filename, bucket_name, file.filename)
-        #myobject = s3_resource.Object(bucket_name,'/UpTest/'+file.filename)
+        #file = request.files['file']
+        #s3_resource = boto3.resource('s3')
+        #my_bucket = s3_resource.Bucket(bucket_upload)
+        #my_bucket.Object(file.filename).put(Body=file)
 
-        #myobject.put() s3://calacaschidas/UpTest/08988068.pdf
-        my_bucket.Object(file.filename).put(Body=file)
+        return render_template('home.html', my_bucket=my_bucket)
+        #return render_template('home.html')
 
-        
-        #my_bucket.Object(file.filename).put(Body=open('/UpTest/', 'rb'))
-        #s3_resource.meta.client.upload_file('/UpTest/' + file.filename, '<calacaschidas>', 'folder/{}'.format(file.filename))
-
-
-        return render_template('files.html', my_bucket=my_bucket)
 
 if __name__ == '__main__':
     app_bbva.run(debug=True)
