@@ -2,16 +2,47 @@
 
 {% block js%}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/ccs" href="{{ url_for('static',filename='css/index.css') }}">
   {% endblock %}
 
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="ccol-8">
-            <button class="btn btn-large btn-secondary" ><a class="text-white" href="/files">Upload</a> </button>
-            <button class="btn btn-large btn-secondary" ><a class="text-white" href="/tablas">tablas</a> </button>
+<div class="container-fluid ">
+    <div class="row ">
+        <div class="col-2 p-3"></div>
+        <div class="col-8">
+            <div class="row">
+                <div class="col">
+                    <img src="{{ url_for('static',filename='img/BBVA-ilustracion.png') }}" style="width: 100%;">
+                </div>
+                <div class="col " style="width: 100%;">
+                    <br><br><br><br>
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col">
+                            <h5 class="d-block">Aviso legal</h5>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p style="text-align: center/left/right;">
+                                By spite about do of do allow blush. Additions in conveying or collected objection in. Suffer few desire wonder her object hardly nearer. Abroad no chatty others my silent an. Fat way appear denote who wholly narrow gay settle. Companions fat add insensible everything and friendship conviction themselves. Theirs months ten had add narrow own. 
+                                He unaffected sympathize discovered at no am conviction principles. Girl ham very how yet hill four show. Meet lain on he only size. Branched learning so subjects mistress do appetite jennings be in. Esteems up lasting no village morning do offices. Settled wishing ability musical may another set age. Diminution my apartments he attachment is entreaties announcing estimating. And total least her two whose great has which. Neat pain form eat sent sex good week. Led instrument sentiments she simplicity. 
+                                He share of first to worse. Weddings and any opinions suitable smallest nay. My he houses or months settle remove ladies appear. Engrossed suffering supposing he recommend do eagerness. Commanded no of depending extremity recommend attention tolerably. Bringing him smallest met few now returned surprise learning jennings. Objection delivered eagerness he exquisite at do in. Warmly up he nearer mr merely me. 
+                            </p>                        
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col">
+                            <button class="btn btn-large btn-primary btn-block" ><a class="text-white" href="/files">Subir archivos</a> </button>
+                            <button class="btn btn-large btn-primary  btn-block" ><a class="text-white" href="/tablas">tablas</a> </button>
+                        </div>
+                        <div class="col"></div>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>
