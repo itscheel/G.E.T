@@ -84,7 +84,9 @@ def get_father_ids(children_ids):
             [father_id[id_].append(index) for id_ in relationship_ids]
     return father_id
 
-def get_analyze_document(analyze_document, plot=False):
+def get_analyze_doument(analyze_document, plot=False):
+    if 'Relationships' not in analyze_document.columns:
+        return None
 
     # Data cleaning
     analyze_document['Relationship_type'], analyze_document['Relationship_ids'] = get_relationship_type_ids(
@@ -291,11 +293,19 @@ def get_aws_analyze_document(file_path):
         df_text = []
         for file_path in file_paths:
             analyze_document = aws_analyze_document(file_path)
-            df_tables.append(get_table_values(analyze_document, file_path, plot=False))
-            df_text.append(get_text(analyze_document, file_path, plot=False))        
+            if analyze_document is None:
+                df_tables.append(None)
+                df_text.append(None)
+            else:
+                df_tables.append(get_table_values(analyze_document, file_path, plot=True))
+                df_text.append(get_text(analyze_document, file_path, plot=True))        
     else:
         image_preprocessing(file_path, plot=False)
         analyze_document = aws_analyze_document(file_path)
-        df_tables = get_table_values(analyze_document, plot=False)
-        df_text = get_text(analyze_document, plot=False)
+        if analyze_document is None:
+            df_tables.append(None)
+            df_text.append(None)
+        else:
+            df_tables.append(get_table_values(analyze_document, file_path, plot=True))
+            df_text.append(get_text(analyze_document, file_path, plot=True))      
     return (df_tables, df_text)
