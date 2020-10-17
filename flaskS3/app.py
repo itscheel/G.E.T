@@ -11,7 +11,7 @@ s3 = boto3.client(
 )
 #bucket_name = 'text0detection'
 bucket_upload = 'calacaschidasdown'
-bucket_download = ''
+bucket_download = 'calacaschidas'
 upload_folder = 'UpTest'
 
 app_bbva = Flask(__name__)
@@ -37,13 +37,12 @@ def upload():
             print('name:'+str(file.filename)+'/ file:'+str(file))
             my_bucket.Object(file.filename).put(Body=file)
 
-        #file = request.files['file']
-        #s3_resource = boto3.resource('s3')
-        #my_bucket = s3_resource.Bucket(bucket_upload)
-        #my_bucket.Object(file.filename).put(Body=file)
-
         return render_template('home.html', my_bucket=my_bucket)
-        #return render_template('home.html')
+
+@app_bbva.route('/tablas', methods=['GET','POST'])
+def tablas():
+
+    return render_template('tablas.html')
 
 
 if __name__ == '__main__':
