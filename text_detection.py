@@ -8,7 +8,7 @@ import pandas as pd
 import numpy as np
 import time
 import os
-
+from botocore.config import Config
 BOUNDING_BOX_KEYS = ['Width', 'Height', 'Left', 'Top']
 
 def select_random_sample_from_list(l):
@@ -252,7 +252,9 @@ def get_text(analyze_document, file_path, plot=False):
 def aws_analyze_document(file_path, plot=False):
     # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/textract.html#Textract.Client.analyze_document
     # AWS Textract request
-    client_textract = boto3.client('textract')
+    My_config = Config(
+    region_name = 'us-west-2')
+    client_textract = boto3.client('textract', config=My_config)
     analyze_document_original = pd.DataFrame(
         client_textract.analyze_document(
             Document={'Bytes': convert_img_to_bytes(file_path)},
