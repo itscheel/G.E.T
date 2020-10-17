@@ -14,10 +14,13 @@
 
 {% block content %}
   <div class="container">
+    <div class="row">
+      <button class="btn btn-secondary btn-lg" ><a href="/">Atras</a> </button>
+    </div>
       <div class="row">
           <div class="col-12-xs">
               <form class="upload-form" action="/upload" method="post" enctype="multipart/form-data">
-                <h5><input type="file" name="file" required></h5>
+                <h5><input type="file" name="file[]" required multiple=""></h5>
                 <button type="submit" name="submit" class="btn btn-success">Subir</button>
               </form>
               <h3>Bucket Info</h3>
