@@ -13,8 +13,8 @@
       <div class="col">
         <table id="pdftable" class="table table-striped">
           <tr>
-            <th>Filename</th>
-            <th>Last Modified</th>
+            <th>Archivos</th>
+            <th>Última modificación</th>
             <th class="col-1 m-5">
               <img id="download"src=" {{ url_for('static',filename='img/descargar-icono.png') }}" style="display: 100%;">
               <img id="display" src=" {{ url_for('static',filename='img/trinagulito-icono.png') }}" style="display: 100%;"> 
@@ -38,9 +38,9 @@
       <div class=" col"></div>
       <div class="col"></div>
       <div class="col">
-        <button id="home" class="btn btn-large btn-secondary" onclick="window.location.hfer='/home'"><p class="text-white">Regresar</p> </button>
-        <button class="btn btn-large btn-secondary" ><p class="text-white" >Descargar</p> </button>
-        <button id="submit" class="btn btn-large btn-secondary" type="submit"><p class="text-white" >Generar</p> </button>
+        <button id="home" class="btn btn-large btn-primary" onclick="window.location.hfer='/files'"><p class="text-white">Regresar</p> </button>
+        <button class="btn btn-large btn-primary" ><a class="text-white" href="{{ url_for('static',filename='csv/ETL.csv')  }} ">Descargar</a> </button>
+        <button id="submit" class="btn btn-large btn-primary" type="submit"><p class="text-white" >Generar</p> </button>
       </div>
     </div>
   </div>

@@ -11,7 +11,7 @@ $(document).ready(function(){
 
     $('#home').click(function(){
         console.log('ok');
-        window.location.hfer='/home';
+        window.location.href = 'http://127.0.0.1:5000/';
     });
     function loaftable(DatosJson){
         
@@ -19,25 +19,32 @@ $(document).ready(function(){
         
         for (i = 0; i < DatosJson.length; i++){
             if(i==0){
-                $("#form").after("<table class='table'>" + 
-                                    '<thead>' + 
-                                        '<th>Documento</th>'+
-                                        '<th>Fecha</th>'+
-                                        '<th>Unidades en las que se mide</th>'+
-                                        '<th>Caja y bancos</th>'+
-                                        '<th>Total activos</th>'+
-                                        '<th>Total pasivos</th>' + 
-                                        '<th>Total pratimonio</th>' + 
-                                        '<th>Ventas</th>' + 
-                                        '<th>Costo de ventas</th>' +
-                                        '<th>Utilidad bruta</th>' + 
-                                        '<th>Utilidad operacional</th>'+ 
-                                        '<th>Utilidad antes de impuestos</th>'+
-                                        '<th>Utilidad neta</th>'+
-                                    '</thead>'+
-                                    "<tbody id='bod'>"+
-                                    '</tbody>'+
-                                '</table>');
+                $("#form").after(
+                    "<div class='container-fluid'>"+
+                        "<div class='row'>"+
+                                "<div clas='col-8'>"+
+                                    "<table class='table'>" + 
+                                        '<thead>' + 
+                                            '<th>Documento</th>'+
+                                            '<th>Fecha</th>'+
+                                            '<th>Unidades en las que se mide</th>'+
+                                            '<th>Caja y bancos</th>'+
+                                            '<th>Total activos</th>'+
+                                            '<th>Total pasivos</th>' + 
+                                            '<th>Total pratimonio</th>' + 
+                                            '<th>Ventas</th>' + 
+                                            '<th>Costo de ventas</th>' +
+                                            '<th>Utilidad bruta</th>' + 
+                                            '<th>Utilidad operacional</th>'+ 
+                                            '<th>Utilidad antes de impuestos</th>'+
+                                            '<th>Utilidad neta</th>'+
+                                        '</thead>'+
+                                        "<tbody id='bod'>"+
+                                        '</tbody>'+
+                                    '</table>'+
+                                '</div>'+
+                            '</div>'+
+                    "</div>");
             }   
     
             $("#bod").append('<tr>' + 

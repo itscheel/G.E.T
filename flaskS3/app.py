@@ -27,7 +27,7 @@ def index():
 @app_bbva.route('/files', methods=['GET','POST'])
 def files():
     s3_resource = boto3.resource('s3')
-    my_bucket = s3_resource.Bucket(bucket_download)
+    my_bucket = s3_resource.Bucket(bucket_upload)
     summaries = my_bucket.objects.all()
     return render_template('files.html', my_bucket=my_bucket, files = summaries)
 
@@ -36,11 +36,12 @@ def upload():
     if request.method == 'POST':
         s3_resource = boto3.resource('s3')
         my_bucket = s3_resource.Bucket(bucket_upload)
+        summaries = my_bucket.objects.all()
         for file in request.files.getlist("file[]"):
             print('name:'+str(file.filename)+'/ file:'+str(file))
             my_bucket.Object(file.filename).put(Body=file)
 
-        return render_template('home.html', my_bucket=my_bucket)
+        return render_template('files.html', my_bucket=my_bucket, files = summaries)
 
 @app_bbva.route('/tablas', methods=['GET','POST'])
 def tablas():
@@ -67,6 +68,10 @@ def set_ajax():
                 fieldnames = [key for key in results[0].keys()]
 
     return json.dumps(results)
+
+
+
+
 
 def download(name,mybucket):
     bucket = mybucket

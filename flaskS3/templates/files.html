@@ -21,22 +21,21 @@
   <div class="container">
 
       <div class="row">
-          <div class="col-12-xs">
-            <h3>Bucket Info</h3>
-              <p>Created: {{ my_bucket.creation_date | dateformat }}</p>
+          <div class="col">
+            <h3>Arhivos</h3>
         
               <hr>
               <table class="table table-striped">
                 <tr>
-                  <th>Filename</th>
-                  <th>Last Modified</th>
-                  <th>Type</th>
+                  <th>Documento</th>
+                  <th>Subido</th>
+                  <th>Borrar</th>
                 </tr>
                 {% for f in files %}
                 <tr>
                   <td>{{ f.key }}</td>
                   <td>{{ f.last_modified | dateformat }}</td>
-                  <td>{{ f.key | gettype }}</td>
+                  <td> <img src="{{ url_for('static',filename='img/eliminar-icono.png') }}"> </td>
                 </tr>
                 {% endfor %}
               </table>
@@ -44,6 +43,7 @@
                 <span class="label label-info text-info p-1" id="fileinfo"></span>
                 <h5><input type="file" id="files" name="file[]" required multiple=""></h5>
                 <hr>
+                <button id="home" class="btn btn-info">Regresar</button>
                 <button type="submit" name="submit" class="btn btn-success">Subir</button>
               </form>
               
