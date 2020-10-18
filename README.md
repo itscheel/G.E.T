@@ -11,7 +11,8 @@ Nuestra plataforma es una solución a las tareas repetitivas de extracción de v
 
 Pasos para usar:
 1. Ingrese al link.
-2. Suba su(s) archivo(s). Sí puede subir más de uno.
-3. Presione el boton analizar.
+2. Seleccione sus archivo(s) con formato PDF. Sí, puede subir más de uno.
+2. Presiona el botón "Subir". 
+3. Presione el boton "Analizar".
 4. Descargue la respuesta en formato csv.
 
