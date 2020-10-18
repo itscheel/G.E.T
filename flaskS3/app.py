@@ -1,8 +1,9 @@
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from flask import request
-import boto3, os
+import boto3, botocore, os
 from config import S3_BUCKET,S3_KEY,S3_SECRET
+from filters import dateformat, gettype
 
 s3 = boto3.client(
     "s3",
@@ -11,11 +12,13 @@ s3 = boto3.client(
 )
 #bucket_name = 'text0detection'
 bucket_upload = 'calacaschidasdown'
-bucket_download = ''
+bucket_download = 'calacaschidas'
 upload_folder = 'UpTest'
 
 app_bbva = Flask(__name__)
 Bootstrap(app_bbva)
+app_bbva.jinja_env.filters['dateformat'] = dateformat
+app_bbva.jinja_env.filters['gettype'] = gettype
 
 @app_bbva.route('/')
 def index():
@@ -37,13 +40,14 @@ def upload():
             print('name:'+str(file.filename)+'/ file:'+str(file))
             my_bucket.Object(file.filename).put(Body=file)
 
-        #file = request.files['file']
-        #s3_resource = boto3.resource('s3')
-        #my_bucket = s3_resource.Bucket(bucket_upload)
-        #my_bucket.Object(file.filename).put(Body=file)
-
         return render_template('home.html', my_bucket=my_bucket)
-        #return render_template('home.html')
+
+@app_bbva.route('/tablas', methods=['GET','POST'])
+def tablas():
+    s3_resource = boto3.resource('s3')
+    my_bucket = s3_resource.Bucket(bucket_upload)
+    summaries = my_bucket.objects.all()
+    return render_template('tablas.html',my_bucket=my_bucket, files = summaries)
 
 
 if __name__ == '__main__':
