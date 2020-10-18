@@ -69,6 +69,8 @@ $(document).ready(function(){
         
     }
 
+    
+
     function get_data(name, path){
         event.preventDefault();
         $.ajax({
@@ -76,14 +78,19 @@ $(document).ready(function(){
             data : $('form').serialize(),
             type: 'POST',
             success: function(response){
+
                 var consult = JSON.parse(response);
                 loaftable(consult);
                 $('#pdftable').hide();
                 console.log(consult);
+
             },
             error: function(error){
                 console.log("Error: "+error);
             }
         });
     }
+
+    
+
 });

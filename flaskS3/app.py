@@ -66,11 +66,18 @@ def set_ajax():
                 for row in data:
                     results.append(dict(row))
                 fieldnames = [key for key in results[0].keys()]
-
     return json.dumps(results)
 
-
-
+@app_bbva.route('/delete',methods=['POST'])
+def delte():
+    if request.method == 'POST':
+        s3_resource = boto3.resource('s3')
+        my_bucket = s3_resource.Bucket(bucket_upload)
+        summaries = my_bucket.objects.all()
+        file = request.form['id']
+        print('file',file)
+        s3_resource.Object(bucket_upload,file).delete()
+        return render_template('files.html', my_bucket=my_bucket, files = summaries)
 
 
 def download(name,mybucket):
