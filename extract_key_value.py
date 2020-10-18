@@ -8,7 +8,7 @@ import re
 import boto3
 import matplotlib.pyplot as plt
 import cv2
-import spacy
+#import spacy
 from unicodedata import normalize
 import boto3
 
