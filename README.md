@@ -13,6 +13,7 @@ Pasos para usar:
 1. Ingrese al link.
 2. Seleccione sus archivo(s) con formato PDF. Sí, puede subir más de uno.
 2. Presiona el botón "Subir". 
-3. Presione el boton "Analizar".
+3. Presione el boton "Analizar" (2 veces jeje).
+4. Espere un momento.
 4. Descargue la respuesta en formato csv.
 
