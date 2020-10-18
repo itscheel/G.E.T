@@ -147,10 +147,9 @@ def get_output_indexes(v_contables_dict,list_words):
         output_indexes[v_contables_key] = row
     return output_indexes
 
-def Calacas_chidas_AI(v_contables_dict,bucket, bucket_file):
-    file_path = os.path.join('DownTest', bucket_file)
+def Calacas_chidas_AI(v_contables_dict,bucket, file_path):
     print(file_path)
-    if bucket_file not in os.listdir('scripts/DownTest'):
+    if file_path not in os.listdir('scripts/'):
         boto3.client('s3').download_file(
             bucket, 
             file_path, 
@@ -184,7 +183,7 @@ def Calacas_chidas_AI(v_contables_dict,bucket, bucket_file):
     claves = ids_campos.keys()
     
     aux = []
-    aux.append(['Archivo',bucket_file])
+    aux.append(['Archivo',file_path])
     aux.append(['Fecha',Fecha])
     aux.append(['Unidades en las que se mide',Unidades])
     for i in claves:
@@ -198,6 +197,12 @@ def Calacas_chidas_AI(v_contables_dict,bucket, bucket_file):
     
     return(df)
 
+def delete(file_path):
+    s3_resource = boto3.resource('s3')
+    my_bucket = s3_resource.Bucket('calacaschidas')
+    print('file',file_path)
+    s3_resource.Object('calacaschidas',file_path).delete()
+    return True
 
 def modelo(documentos):
     v_contables_dict = {
@@ -206,7 +211,7 @@ def modelo(documentos):
             'efectivo y equivalentes en efectivo',
             'efectivo y equivalentes de efectivo',
         ],
-        'Total activo':[
+        'Total activos':[
             'total activo',
             'suma de los activos', 
             'activo total',
@@ -277,16 +282,19 @@ def modelo(documentos):
     bucket = 'calacaschidas'
     lst = []
     for doc in documentos:
-        print(doc)
+        if doc == 'DownTest/':
+            continue
         bucket_file = str(doc)
         output = Calacas_chidas_AI(v_contables_dict,bucket, bucket_file)
         final_df = output.set_index(0).T
-        final_df['Archivo'] = bucket_file
+        final_df['Archivo'] = bucket_file.split('/')[1  ]
         lst.append(final_df)
     final = pd.concat(lst,ignore_index=True)
-    print('**************************************************')
     final.to_csv('static/csv/ETL.csv',index=False)
-    print('**************************************************',final)
-    print(final)
+
+    for doc in documentos:
+        if doc == 'DownTest/':
+            continue
+        delete(doc)
     return(final)
     

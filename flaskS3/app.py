@@ -41,7 +41,7 @@ def upload():
         summaries = my_bucket.objects.all()
         for file in request.files.getlist("file[]"):
             print('name:'+str(file.filename)+'/ file:'+str(file))
-            my_bucket.Object(file.filename).put(Body=file)
+            my_bucket.Object(os.path.join('DownTest',file.filename)).put(Body = file)
 
         return render_template('files.html', my_bucket=my_bucket, files = summaries)
 
@@ -56,13 +56,13 @@ def tablas():
 def set_ajax():
     if request.method == 'POST':
 
-        files = ['Doc11.pdf','Doc13.pdf','Doc14.pdf']
+        files = boto3.client('s3').list_objects(Bucket=bucket_upload)['Contents']
+        files =  [x['Key'] for x in files]
         calacas_chidas.modelo(files)
         results = []
-        name = files[0]
 
-        if os.path.exists('/home/notcelis/Escritorio/G.E.T/flaskS3/static/ETL.csv'):
-            os.remove('/home/notcelis/Escritorio/G.E.T/flaskS3/static/ETL.csv')
+        if os.path.exists('/home/notcelis/Escritorio/G.E.T/flaskS3/ETL.csv'):
+            os.remove('/home/notcelis/Escritorio/G.E.T/flaskS3//ETL.csv')
         path = download('ETL.csv',bucket_upload)
         with open(path,newline='\n') as csv_file:
             data = csv.DictReader(csv_file)
@@ -83,14 +83,15 @@ def delte():
         return render_template('files.html', my_bucket=my_bucket, files = summaries)
 
 
+
 def download(name,mybucket):
     bucket = mybucket
     bucket_files = boto3.client('s3').list_objects(Bucket=bucket)['Contents']
     bucket_files = [x['Key'] for x in bucket_files]
     try:
         bucket_file = name
-        file_path = os.path.join('/home/notcelis/Escritorio/G.E.T/flaskS3/flask/', bucket_file)
-        if bucket_file not in os.listdir('/home/notcelis/Escritorio/G.E.T/flaskS3/flask/'):
+        file_path = os.path.join('static/csv', bucket_file)
+        if bucket_file not in os.listdir('static/csv'):
             boto3.client('s3').download_file(bucket, name, file_path)
     except botocore.exceptions.ClientError as e:
         if e.response['Error']['Code']=="404":
