@@ -1,5 +1,5 @@
 # G.E.T 
-###//lease jit//
+### //lease jit//
 
 Link listo para usar: http://d83cdfdf5daf.ngrok.io
 
