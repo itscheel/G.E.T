@@ -41,7 +41,7 @@ $(document).ready(function(){
             }   
     
             $("#bod").append('<tr>' + 
-                                '<td align="center" style="dislay: none;">' + DatosJson[i]['archivo'] + '</td>'+
+                                '<td align="center" style="dislay: none;">' + DatosJson[i]['Archivo'] + '</td>'+
                                 '<td align="center" style="dislay: none;">' + DatosJson[i]['Fecha'] + '</td>'+
                                 '<td align="center" style="dislay: none;">' + DatosJson[i]['Unidades en las que se mide'] + '</td>'+
                                 '<td align="center" style="dislay: none;">' + DatosJson[i]['Caja y bancos'] + '</td>'+

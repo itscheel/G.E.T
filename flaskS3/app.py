@@ -52,18 +52,19 @@ def tablas():
 @app_bbva.route('/set_ajax', methods=['POST'])
 def set_ajax():
     if request.method == 'POST':
-        name = 'Doc1.csv'
-        if os.path.exists('/home/notcelis/Escritorio/G.E.T/flaskS3/static/csv/'+name):
-            os.remove('/home/notcelis/Escritorio/G.E.T/flaskS3/static/csv/'+name)
-        path = download(name,bucket_download)
-        with open(path,newline='\n') as csv_file:
-            #data = csv.reader(csv_file)
-            data = csv.DictReader(csv_file)
-            results = []
-            for row in data:
-                results.append(dict(row))
-            fieldnames = [key for key in results[0].keys()]
-            print('*************************'+str(results))
+        files = ['Doc1.csv','Doc2.csv','Doc5.csv','ETL.csv']
+        results = []
+        name = files[0]
+
+        for file in files:
+            if os.path.exists('/home/notcelis/Escritorio/G.E.T/flaskS3/static/csv/'+file):
+               os.remove('/home/notcelis/Escritorio/G.E.T/flaskS3/static/csv/'+file)
+            path = download(file,bucket_download)
+            with open(path,newline='\n') as csv_file:
+                data = csv.DictReader(csv_file)
+                for row in data:
+                    results.append(dict(row))
+                fieldnames = [key for key in results[0].keys()]
 
     return json.dumps(results)
 
