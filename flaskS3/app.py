@@ -4,6 +4,8 @@ from flask import request
 import boto3, botocore, os, csv, json
 from config import S3_BUCKET,S3_KEY,S3_SECRET
 from filters import dateformat, gettype
+from scripts import calacas_chidas
+
 
 s3 = boto3.client(
     "s3",
@@ -53,19 +55,20 @@ def tablas():
 @app_bbva.route('/set_ajax', methods=['POST'])
 def set_ajax():
     if request.method == 'POST':
-        files = ['Doc1.csv','Doc2.csv','Doc5.csv','ETL.csv']
+
+        files = ['Doc11.pdf','Doc13.pdf','Doc14.pdf']
+        calacas_chidas.modelo(files)
         results = []
         name = files[0]
 
-        for file in files:
-            if os.path.exists('/home/notcelis/Escritorio/G.E.T/flaskS3/static/csv/'+file):
-               os.remove('/home/notcelis/Escritorio/G.E.T/flaskS3/static/csv/'+file)
-            path = download(file,bucket_download)
-            with open(path,newline='\n') as csv_file:
-                data = csv.DictReader(csv_file)
-                for row in data:
-                    results.append(dict(row))
-                fieldnames = [key for key in results[0].keys()]
+        if os.path.exists('/home/notcelis/Escritorio/G.E.T/flaskS3/static/ETL.csv'):
+            os.remove('/home/notcelis/Escritorio/G.E.T/flaskS3/static/ETL.csv')
+        path = download('ETL.csv',bucket_upload)
+        with open(path,newline='\n') as csv_file:
+            data = csv.DictReader(csv_file)
+            for row in data:
+                results.append(dict(row))
+            fieldnames = [key for key in results[0].keys()]
     return json.dumps(results)
 
 @app_bbva.route('/delete',methods=['POST'])
@@ -86,8 +89,8 @@ def download(name,mybucket):
     bucket_files = [x['Key'] for x in bucket_files]
     try:
         bucket_file = name
-        file_path = os.path.join('/home/notcelis/Escritorio/G.E.T/flaskS3/static/csv', bucket_file)
-        if bucket_file not in os.listdir('/home/notcelis/Escritorio/G.E.T/flaskS3/static/csv'):
+        file_path = os.path.join('/home/notcelis/Escritorio/G.E.T/flaskS3/flask/', bucket_file)
+        if bucket_file not in os.listdir('/home/notcelis/Escritorio/G.E.T/flaskS3/flask/'):
             boto3.client('s3').download_file(bucket, name, file_path)
     except botocore.exceptions.ClientError as e:
         if e.response['Error']['Code']=="404":
