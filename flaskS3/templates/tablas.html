@@ -2,29 +2,51 @@
 
 {% block js%}
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <script src="{{ url_for('static',filename='js/download_csv.js') }}"></script>
+  
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<form id="form" name="form" method="POST" action="/set_ajax">
+  <div class="container">
     <div class="row">
-        <div class="col">
-            <table class="table table-hover">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    <tr></tr>
-                    <tr></tr>
-                </tbody>
-            </table>
-            <button class="btn btn-large btn-secondary" ><a class="text-white" href="/">Regresar</a> </button>
-            <button class="btn btn-large btn-secondary" ><a class="text-white" >Descargar</a> </button>
-        </div>
+      <div class="col">
+        <table id="pdftable" class="table table-striped">
+          <tr>
+            <th>Filename</th>
+            <th>Last Modified</th>
+            <th class="col-1 m-5">
+              <img id="download"src=" {{ url_for('static',filename='img/descargar-icono.png') }}" style="display: 100%;">
+              <img id="display" src=" {{ url_for('static',filename='img/trinagulito-icono.png') }}" style="display: 100%;"> 
+            </th>
+          </tr>
+          {% for f in files %}
+          <tr>
+            <td>{{ f.key }}</td>
+            <td>{{ f.last_modified | dateformat }}</td>
+            <td>
+              
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
     </div>
-</div>
+  </div>
+  <div class="container fixed-bottom">
+    <div class="row">
+      <div class=" col"></div>
+      <div class="col"></div>
+      <div class="col">
+        <button id="home" class="btn btn-large btn-secondary" onclick="window.location.hfer='/home'"><p class="text-white">Regresar</p> </button>
+        <button class="btn btn-large btn-secondary" ><p class="text-white" >Descargar</p> </button>
+        <button id="submit" class="btn btn-large btn-secondary" type="submit"><p class="text-white" >Generar</p> </button>
+      </div>
+    </div>
+  </div>
+</form>
+{% block tablas_out %}
+{% endblock %}
+
+
 {% endblock %}

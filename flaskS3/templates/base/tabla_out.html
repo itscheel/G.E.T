@@ -1,0 +1,30 @@
+
+  <div class='container'>
+    <div class='row'>
+        <div class='col'>
+            <table class='table table-hover'>
+                <thead>
+                  <tr>
+                    {% for header in results[0].keys() %}
+                          <th>
+                            {{ header }}
+                          </th>
+                      {% endfor %}
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for row in results %}
+                    <tr>
+                      {% for index in range(0,len(fieldnames)) %}
+                        <td>
+                          {{ row[fieldnames[index]] }}
+                        </td>
+                      {% endfor %}
+                    </tr>
+                    <tr></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+  |</div>|

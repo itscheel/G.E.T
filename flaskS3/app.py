@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from flask import request
-import boto3, botocore, os
+import boto3, botocore, os, csv, json
 from config import S3_BUCKET,S3_KEY,S3_SECRET
 from filters import dateformat, gettype
 
@@ -11,8 +11,8 @@ s3 = boto3.client(
     aws_secret_access_key = S3_SECRET
 )
 #bucket_name = 'text0detection'
-bucket_upload = 'calacaschidasdown'
-bucket_download = 'calacaschidas'
+bucket_upload = 'calacaschidas'
+bucket_download = 'calacaschidasdown'
 upload_folder = 'UpTest'
 
 app_bbva = Flask(__name__)
@@ -27,7 +27,7 @@ def index():
 @app_bbva.route('/files', methods=['GET','POST'])
 def files():
     s3_resource = boto3.resource('s3')
-    my_bucket = s3_resource.Bucket(bucket_upload)
+    my_bucket = s3_resource.Bucket(bucket_download)
     summaries = my_bucket.objects.all()
     return render_template('files.html', my_bucket=my_bucket, files = summaries)
 
@@ -48,6 +48,42 @@ def tablas():
     my_bucket = s3_resource.Bucket(bucket_upload)
     summaries = my_bucket.objects.all()
     return render_template('tablas.html',my_bucket=my_bucket, files = summaries)
+
+@app_bbva.route('/set_ajax', methods=['POST'])
+def set_ajax():
+    if request.method == 'POST':
+        name = 'Doc1.csv'
+        if os.path.exists('/home/notcelis/Escritorio/G.E.T/flaskS3/static/csv/'+name):
+            os.remove('/home/notcelis/Escritorio/G.E.T/flaskS3/static/csv/'+name)
+        path = download(name,bucket_download)
+        with open(path,newline='\n') as csv_file:
+            #data = csv.reader(csv_file)
+            data = csv.DictReader(csv_file)
+            results = []
+            for row in data:
+                results.append(dict(row))
+            fieldnames = [key for key in results[0].keys()]
+            print('*************************'+str(results))
+
+    return json.dumps(results)
+
+def download(name,mybucket):
+    bucket = mybucket
+    bucket_files = boto3.client('s3').list_objects(Bucket=bucket)['Contents']
+    bucket_files = [x['Key'] for x in bucket_files]
+    try:
+        bucket_file = name
+        file_path = os.path.join('/home/notcelis/Escritorio/G.E.T/flaskS3/static/csv', bucket_file)
+        if bucket_file not in os.listdir('/home/notcelis/Escritorio/G.E.T/flaskS3/static/csv'):
+            boto3.client('s3').download_file(bucket, name, file_path)
+    except botocore.exceptions.ClientError as e:
+        if e.response['Error']['Code']=="404":
+            print("doesn't exist")
+        else:
+            raise
+    return file_path
+
+
 
 
 if __name__ == '__main__':
